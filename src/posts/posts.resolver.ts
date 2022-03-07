@@ -26,7 +26,9 @@ const pubSub = new PubSub();
 
 @Resolver(() => Post)
 export class PostsResolver {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {
+    //
+  }
 
   @Subscription(() => Post)
   postCreated() {
@@ -106,7 +108,7 @@ export class PostsResolver {
     return this.prisma.post.findUnique({ where: { id: id.postId } });
   }
 
-  @ResolveField('author')
+  @ResolveField('author', () => User)
   async author(@Parent() post: Post) {
     return this.prisma.post.findUnique({ where: { id: post.id } }).author();
   }

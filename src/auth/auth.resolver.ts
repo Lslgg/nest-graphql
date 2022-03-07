@@ -11,10 +11,13 @@ import { Token } from './models/token.model';
 import { LoginInput } from './dto/login.input';
 import { SignupInput } from './dto/signup.input';
 import { RefreshTokenInput } from './dto/refresh-token.input';
+import { User } from 'src/users/models/user.model';
 
 @Resolver(() => Auth)
 export class AuthResolver {
-  constructor(private readonly auth: AuthService) {}
+  constructor(private readonly auth: AuthService) {
+    //
+  }
 
   @Mutation(() => Auth)
   async signup(@Args('data') data: SignupInput) {
@@ -26,7 +29,7 @@ export class AuthResolver {
     };
   }
 
-  @Mutation(() => Auth)
+  @Mutation(() => Auth, { description: '这个是登录的方法' })
   async login(@Args('data') { email, password }: LoginInput) {
     const { accessToken, refreshToken } = await this.auth.login(
       email.toLowerCase(),
@@ -44,7 +47,7 @@ export class AuthResolver {
     return this.auth.refreshToken(token);
   }
 
-  @ResolveField('user')
+  @ResolveField('user', () => User)
   async user(@Parent() auth: Auth) {
     return await this.auth.getUserFromToken(auth.accessToken);
   }

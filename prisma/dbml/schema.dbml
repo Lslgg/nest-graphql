@@ -6,32 +6,49 @@ Table User {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+  isDel Boolean [not null, default: true]
+  isValid Boolean [not null, default: true]
   email String [unique, not null]
   password String [not null]
   firstname String
   lastname String
-  posts Post [not null]
   role Role [not null]
-}
-
-Table Post {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  published Boolean [not null]
-  title String [not null]
-  content String
-  author User
-  authorId String
 }
 
 Table Site {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+  isDel Boolean [not null, default: true]
+  isValid Boolean [not null, default: true]
   domain String [unique, not null]
   name String [not null]
   pid String [not null]
+  Corporate Corporate [not null]
+}
+
+Table Corporate {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isDel Boolean [not null, default: true]
+  isValid Boolean [not null, default: true]
+  site Site [not null]
+  siteId String [not null]
+  nameZH String [not null]
+  nameEN String [not null]
+  abbr String [not null]
+  brandName String [not null]
+}
+
+Table Contact {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isDel Boolean [not null, default: true]
+  isValid Boolean [not null, default: true]
+  type String [not null]
+  content String [not null]
 }
 
 Enum Role {
@@ -39,4 +56,4 @@ Enum Role {
   USER
 }
 
-Ref: Post.authorId > User.id
+Ref: Corporate.siteId > Site.id

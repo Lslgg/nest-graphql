@@ -13,35 +13,52 @@ generator dbml {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDel Boolean @default(true)
+  isValid Boolean @default(true)
   email     String   @unique
   password  String
   firstname String?
   lastname  String?
-  posts     Post[]
   role      Role
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
-}
-
 model Site {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  domain    String   @unique
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDel Boolean @default(true)
+  isValid Boolean @default(true)
+  domain    String      @unique
   name      String
   pid       String
+  Corporate Corporate[]
+}
+
+model Corporate {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDel Boolean @default(true)
+  isValid Boolean @default(true)
+  site      Site     @relation(fields: [siteId], references: [id])
+  siteId    String
+  nameZH    String
+  nameEN    String
+  abbr      String
+  brandName String
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDel Boolean @default(true)
+  isValid Boolean @default(true)
+  type      String
+  content   String
 }
 
 enum Role {

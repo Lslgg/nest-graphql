@@ -1,0 +1,8 @@
+{
+	"files.exclude": {
+		"LICENSE": true,
+		"dist": true,
+		".github": true,
+		"graphql": true,
+	}
+}

@@ -16,9 +16,41 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
-input CreatePostInput {
-  content: String!
-  title: String!
+type Corporate {
+  """英文简称"""
+  abbr: String!
+
+  """品牌名称"""
+  brandName: String!
+
+  """ID"""
+  id: String!
+
+  """公司中文名称"""
+  nameCH: String!
+
+  """公司英文全称"""
+  nameEN: String!
+
+  """站点id"""
+  siteId: String!
+}
+
+input CreateCorporateInput {
+  """英文简称"""
+  abbr: String!
+
+  """品牌名称"""
+  brandName: String!
+
+  """公司中文名称"""
+  nameCH: String!
+
+  """公司英文全称"""
+  nameEN: String!
+
+  """站点id"""
+  siteId: String!
 }
 
 input CreateSiteInput {
@@ -49,68 +81,28 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createPost(data: CreatePostInput!): Post!
+  createCorporate(createCorporateInput: CreateCorporateInput!): Corporate!
   createSite(createSiteInput: CreateSiteInput!): Site!
 
   """这个是登录的方法"""
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
+  removeCorporate(id: Int!): Corporate!
   removeSite(id: Int!): Site!
   signup(data: SignupInput!): Auth!
+  updateCorporate(updateCorporateInput: UpdateCorporateInput!): Corporate!
   updateSite(updateSiteInput: UpdateSiteInput!): Site!
   updateUser(data: UpdateUserInput!): User!
 }
 
-"""
-Possible directions in which to order a list of items when provided an `orderBy` argument.
-"""
-enum OrderDirection {
-  asc
-  desc
-}
-
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-}
-
-type Post {
-  author: User!
-
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
-  id: ID!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
-}
-
-type PostConnection {
-  edges: [PostEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
-}
-
-type PostEdge {
-  cursor: String!
-  node: Post!
-}
-
-input PostOrder {
-  direction: OrderDirection!
-}
-
 type Query {
+  corporate(id: Int!): Corporate!
+  corporates: [Corporate!]!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
-  post: Post!
-  publishedPosts(orderBy: PostOrder, query: String): PostConnection!
-  site(id: Int!): Site!
+  site(id: String!): Site!
   sites: [Site!]!
-  userPosts: [Post!]!
 }
 
 """User role"""
@@ -141,16 +133,32 @@ type Site {
   pid: String!
 }
 
-type Subscription {
-  postCreated: Post!
-}
-
 type Token {
   """JWT access token"""
   accessToken: JWT!
 
   """JWT refresh token"""
   refreshToken: JWT!
+}
+
+input UpdateCorporateInput {
+  """英文简称"""
+  abbr: String
+
+  """品牌名称"""
+  brandName: String
+
+  """ID"""
+  id: String!
+
+  """公司中文名称"""
+  nameCH: String
+
+  """公司英文全称"""
+  nameEN: String
+
+  """站点id"""
+  siteId: String
 }
 
 input UpdateSiteInput {
@@ -174,7 +182,6 @@ type User {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   id: ID!
-  posts: [Post!]!
   role: Role!
 
   """Identifies the date and time when the object was last updated."""

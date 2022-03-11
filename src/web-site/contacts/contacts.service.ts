@@ -5,7 +5,9 @@ import { UpdateContactInput } from './dto/update-contact.input';
 
 @Injectable()
 export class ContactsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {
+    //
+  }
 
   create(createContactInput: CreateContactInput) {
     return this.prisma.contact.create({
@@ -19,12 +21,13 @@ export class ContactsService {
     return `This action returns all contacts`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} contact`;
   }
 
-  update(id: number, updateContactInput: UpdateContactInput) {
-    return `This action updates a #${id} contact`;
+  update(updateContactInput: UpdateContactInput) {
+    console.log(updateContactInput);
+    return `This action updates a # contact`;
   }
 
   remove(id: number) {

@@ -31,4 +31,6 @@ import { GqlConfigService } from './gql-config.service';
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule {
+  //
+}

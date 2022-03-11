@@ -16,6 +16,17 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+type Contact {
+  """详情内容"""
+  content: String!
+
+  """ID"""
+  id: String!
+
+  """联系方式"""
+  type: String!
+}
+
 type Corporate {
   """英文简称"""
   abbr: String!
@@ -34,6 +45,14 @@ type Corporate {
 
   """站点id"""
   siteId: String!
+}
+
+input CreateContactInput {
+  """详情内容"""
+  content: String!
+
+  """联系方式"""
+  type: String!
 }
 
 input CreateCorporateInput {
@@ -81,21 +100,26 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createContact(createContactInput: CreateContactInput!): Contact!
   createCorporate(createCorporateInput: CreateCorporateInput!): Corporate!
   createSite(createSiteInput: CreateSiteInput!): Site!
 
   """这个是登录的方法"""
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
+  removeContact(id: Int!): Contact!
   removeCorporate(id: Int!): Corporate!
   removeSite(id: Int!): Site!
   signup(data: SignupInput!): Auth!
+  updateContact(updateContactInput: UpdateContactInput!): Contact!
   updateCorporate(updateCorporateInput: UpdateCorporateInput!): Corporate!
   updateSite(updateSiteInput: UpdateSiteInput!): Site!
   updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
+  contact(id: String!): Contact!
+  contacts: [Contact!]!
   corporate(id: Int!): Corporate!
   corporates: [Corporate!]!
   hello(name: String!): String!
@@ -139,6 +163,10 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: JWT!
+}
+
+input UpdateContactInput {
+  id: String!
 }
 
 input UpdateCorporateInput {

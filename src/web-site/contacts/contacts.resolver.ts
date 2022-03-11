@@ -6,10 +6,14 @@ import { UpdateContactInput } from './dto/update-contact.input';
 
 @Resolver(() => Contact)
 export class ContactsResolver {
-  constructor(private readonly contactsService: ContactsService) {}
+  constructor(private readonly contactsService: ContactsService) {
+    //
+  }
 
   @Mutation(() => Contact)
-  createContact(@Args('createContactInput') createContactInput: CreateContactInput) {
+  createContact(
+    @Args('createContactInput') createContactInput: CreateContactInput
+  ) {
     return this.contactsService.create(createContactInput);
   }
 
@@ -19,13 +23,15 @@ export class ContactsResolver {
   }
 
   @Query(() => Contact, { name: 'contact' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.contactsService.findOne(id);
   }
 
   @Mutation(() => Contact)
-  updateContact(@Args('updateContactInput') updateContactInput: UpdateContactInput) {
-    return this.contactsService.update(updateContactInput.id, updateContactInput);
+  updateContact(
+    @Args('updateContactInput') updateContactInput: UpdateContactInput
+  ) {
+    return this.contactsService.update(updateContactInput);
   }
 
   @Mutation(() => Contact)
